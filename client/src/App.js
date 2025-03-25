@@ -3,15 +3,18 @@ import axios from "axios";
 import Sidebar from "./components/Sidebar";
 import SongList from "./components/SongList";
 import NowPlaying from "./components/NowPlaying";
+import Favourite from "./components/Favourite";
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import AuthPage from "./pages/AuthPage"; // ✅ New AuthPage with Login/Register toggle
+// import Like from "./components/like"  // ✅ importing like component
 
 const App = () => {
   const [songs, setSongs] = useState([]);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [user, setUser] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("home"); // State to track the selected tab
 
   // ✅ Listen for auth state changes
   useEffect(() => {
@@ -60,6 +63,11 @@ const App = () => {
     setCurrentSong(null); // optional: clear the player
   };
 
+  // ✅ Handle tab selection (home, playlists, favourites)
+  const handleSelectTab = (tab) => {
+    setSelectedTab(tab);
+  };
+
   // ✅ If no user logged in, show the AuthPage (Login/Signup)
   if (!user) {
     return <AuthPage />;
@@ -81,12 +89,29 @@ const App = () => {
 
       {/* Main Layout */}
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        <Sidebar onSelectTab={handleSelectTab} /> {/* Pass handleSelectTab to Sidebar */}
 
         <main className="flex-1 p-6 flex flex-col justify-between pb-20 overflow-y-auto">
           <div>
-            <h1 className="text-3xl font-bold mb-4">Discover Songs</h1>
-            <SongList songs={songs} onSelectSong={setCurrentSong} />
+            {selectedTab === "home" && (
+              <>
+                <h1 className="text-3xl font-bold mb-4">Discover Songs</h1>
+                <SongList songs={songs} onSelectSong={setCurrentSong}  />
+                
+              </>
+            )}
+
+            {selectedTab === "playlists" && (
+              <h1 className="text-3xl font-bold mb-4">Your Playlists</h1>
+              // You can add playlist-related content here
+            )}
+
+            {selectedTab === "favorites" && (
+              <>
+                <h1 className="text-3xl font-bold mb-4">Your Favorites</h1>
+                <Favourite /> {/* Show the Favourite component when 'favorites' tab is selected */}
+              </>
+            )}
           </div>
         </main>
       </div>

@@ -1,8 +1,7 @@
 // src/components/SongList.js
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Player from "./Player";
+import React, { useState } from "react";
+import Like from "./like";
 
 const SongList = ({ songs, onSelectSong }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +30,7 @@ const SongList = ({ songs, onSelectSong }) => {
           <div
             key={song._id}
             onClick={() => onSelectSong(song)}
-            className="bg-gray-800 hover:bg-gray-700 cursor-pointer p-4 rounded-lg shadow-md flex flex-col items-center transition duration-200"
+            className="bg-gray-800 hover:bg-gray-700 cursor-pointer p-4 rounded-lg shadow-md flex flex-col items-center transition duration-200 relative"
           >
             <img
               src={
@@ -42,6 +41,11 @@ const SongList = ({ songs, onSelectSong }) => {
             />
             <h4 className="text-lg font-medium">{song.title}</h4>
             <p className="text-sm text-gray-400">{song.artist}</p>
+
+            {/* Like button positioned at bottom-right */}
+            <div className="absolute bottom-2 right-2">
+              <Like />
+            </div>
           </div>
         ))}
       </div>
