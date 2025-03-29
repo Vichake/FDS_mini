@@ -44,7 +44,7 @@ const SongList = ({ songs, onSelectSong }) => {
 
             {/* Like button positioned at bottom-right */}
             <div className="absolute bottom-2 right-2">
-              <Like />
+            <Like songId={song._id} userId = {12}/>
             </div>
           </div>
         ))}
