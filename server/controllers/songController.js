@@ -1,5 +1,6 @@
 const Song = require('../models/Song');
 const path = require('path');
+const User = require('../models/User');
 
 // Add Song (Admin only)
 exports.addSong = async (req, res) => {
@@ -9,6 +10,7 @@ exports.addSong = async (req, res) => {
 
         const song = new Song({ title, artist, filePath });
         await song.save();
+
 
         res.status(201).json({ message: 'Song uploaded successfully', song });
     } catch (error) {
@@ -39,3 +41,42 @@ exports.getAllSongs = async (req, res) => {
         res.status(500).json({ error: 'Failed to get songs' });
     }
 };
+
+// add song to favourites
+exports.addfavourites = async(req,res)=>{
+    try{
+       console.log(req.body);
+       const {person,id} = req.body;
+       const data = await User.findOne({username:person});
+       const thatsong = await Song.findOne({_id:id});
+       thatsong.totallikes++;
+       await thatsong.save();
+       data.favourites.push(id);
+       await data.save();
+       return res.status(200).send({message:"done"});
+    }catch(err){
+     console.log(err);
+     return res.status(404).send({error:err});
+    }
+ };
+
+// Get all favourite songs of a specific user
+ exports.getfavourites = async(req,res)=>{
+    try{
+       const {person} = req.body;
+       const data = await User.findOne({username:person});
+       let array=[];
+    //    console.log(data);
+       console.log(data.favourites);
+       for(var i=0;i<data.favourites.length;i++){
+          const songyy = await song.findOne({_id:data.favourites[i]});
+          console.log(songyy);
+          array.push(songyy);
+       }
+       console.log(array);
+       return res.status(200).send({response:array});
+    }catch(err){
+     console.log(err);
+     return res.status(404).send({error:err});
+    }
+ };

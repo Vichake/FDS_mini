@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const {addfavourites,getfavourites} = require('../controllers/songController');
 
 // add like to a song
-router.post('/', (req, res) => {
-    const { userId, songId } = req.body;
-    console.log(userId, songId);
-    res.send('Like added to song!');
-});
+router.post('/addfavourites',addfavourites);
+router.get("/getfavourites",getfavourites);
 
 
 module.exports = router;
+    

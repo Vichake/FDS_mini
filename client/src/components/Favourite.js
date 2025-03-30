@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/Favourite.css';
-const Favourite = () => {
+
+const Favourite = ({user}) => {
   return (
     <div className="favloading">
         <div className="header">
@@ -9,7 +10,7 @@ const Favourite = () => {
         </div>
         <div className="lineyyyyy"></div>
         <div className="songlist">
-            <div className="items">Hello World</div>
+            <div className="items">{user}</div>
             <div className="items"></div>
             <div className="items"></div>
             <div className="items"></div>

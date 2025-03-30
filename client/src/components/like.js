@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
-import Axios from 'axios';
+// import Axios from 'axios';
 
 const LikeButton = ({ onLike }) => {
   const [liked, setLiked] = useState(false);
@@ -10,7 +10,7 @@ const LikeButton = ({ onLike }) => {
     if (onLike) onLike(!liked);
   };
 
-  Axios.post('/api/likes', { userId: 1, songId: 1 });
+  // Axios.post('/api/likes', { userId: 1, songId: 1 });
 
 
   return (

@@ -3,16 +3,17 @@
 import React, { useState } from "react";
 import Like from "./like";
 
-const SongList = ({ songs, onSelectSong }) => {
-  const [searchTerm, setSearchTerm] = useState("");
 
+
+const SongList = ({ songs, onSelectSong, user }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  
   // Filter songs based on searchTerm
   const filteredSongs = songs.filter((song) =>
     song.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  return (
-    <div>
+return (
+  <div>
       {/* Search bar */}
       <div className="mb-4 flex justify-center">
         <input
@@ -44,7 +45,7 @@ const SongList = ({ songs, onSelectSong }) => {
 
             {/* Like button positioned at bottom-right */}
             <div className="absolute bottom-2 right-2">
-            <Like songId={song._id} userId = {12}/>
+            <Like songId={song._id} userId = {user.email}/>
             </div>
           </div>
         ))}
