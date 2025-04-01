@@ -36,6 +36,7 @@ exports.deleteSong = async (req, res) => {
 exports.getAllSongs = async (req, res) => {
     try {
         const songs = await Song.find().sort({ createdAt: -1 });
+        // console.log(songs);
         res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({ error: 'Failed to get songs' });
@@ -61,22 +62,58 @@ exports.addfavourites = async(req,res)=>{
  };
 
 // Get all favourite songs of a specific user
- exports.getfavourites = async(req,res)=>{
-    try{
-       const {person} = req.body;
-       const data = await User.findOne({username:person});
-       let array=[];
-    //    console.log(data);
-       console.log(data.favourites);
-       for(var i=0;i<data.favourites.length;i++){
-          const songyy = await song.findOne({_id:data.favourites[i]});
-          console.log(songyy);
-          array.push(songyy);
-       }
-       console.log(array);
-       return res.status(200).send({response:array});
-    }catch(err){
-     console.log(err);
-     return res.status(404).send({error:err});
+exports.getfavourites = async (req, res) => {
+    try {
+        const users = await User.find({});
+        console.log(users);
+      const { person } = req.query; // Extract email from query parameters
+      console.log("Requested User Email:", person);
+  
+      // Find user by email and populate the favourites array with song details
+      const user = await User.findOne({ email: person }).populate("favourites");
+
+      // Check if the user exists
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Check if the user has any favourites
+      if (!user.favourites || user.favourites.length === 0) {
+        return res.status(200).json([]); // Return an empty array if no favourites
+      }
+  
+      // Return the populated favourites array
+      return res.status(200).json(user.favourites);
+    } catch (err) {
+      console.error("Error fetching favourites:", err);
+      return res.status(500).json({ error: "Internal server error" });
     }
- };
+  };
+
+ exports.getstatus = async (req, res) => {
+    try {
+        const { userId } = req.query; // Extract userId from query parameters
+        // console.log(userId)
+    
+        // Validate userId
+        if (!userId) {
+          return res.status(400).json({ error: "userId is required" });
+        }
+    
+        // Find user by ID and populate the favourites array with song details
+        const user = await User.find({email:userId});
+    
+        // Check if user exists
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
+        }
+        // console.log(user);
+    
+        // Send the list of favourite songs
+        return res.status(200).json({ favourites: user.favourites });
+      } catch (err) {
+        console.error("Error fetching favourites:", err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+  };
+  

@@ -46,6 +46,7 @@ return (
             {/* Like button positioned at bottom-right */}
             <div className="absolute bottom-2 right-2">
             <Like songId={song._id} userId = {user.email}/>
+            {/* <p>{user.email}</p> */}
             </div>
           </div>
         ))}
