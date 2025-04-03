@@ -9,7 +9,7 @@ const LikeButton = ({ songId, userId }) => {
   // Fetch initial like status
   useEffect(() => {
     if (!userId || !songId) return;
-    
+
     axios
       .get(`http://localhost:5000/api/likes/status?songId=${songId}&userId=${userId}`)
       .then((res) => setLiked(res.data.liked))
@@ -22,13 +22,13 @@ const LikeButton = ({ songId, userId }) => {
       return;
     }
 
-    setLoading(true);
     try {
       if (!liked) {
-        await axios.post("http://localhost:5000/api/likes/favourites", { songId, userId });
+        await axios.post("http://localhost:5000/api/likes/addfavourites", { songId, userId });
       } else {
-        await axios.post("http://localhost:5000/api/likes/remove-favourite", { songId, userId });
+        await axios.patch("http://localhost:5000/api/likes/remove-favourite", { songId, userId });
       }
+      // setLoading(true);
       setLiked(!liked);
     } catch (error) {
       console.error("Error updating favourites:", error);

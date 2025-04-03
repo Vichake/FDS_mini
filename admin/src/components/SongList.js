@@ -17,7 +17,7 @@ const SongList = ({ token }) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/songs/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+  
       });
       alert('Song deleted successfully!');
       fetchSongs(); // Refresh list

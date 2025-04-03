@@ -38,6 +38,6 @@ router.post('/add', upload.single('song'), async (req, res) => {
 
 router.get('/', getAllSongs);
 router.post('/add', verifyToken, isAdmin, upload.single('song'), addSong);
-router.delete('/:id', verifyToken, isAdmin, deleteSong);
+router.delete('/:id', deleteSong);
 
 module.exports = router;

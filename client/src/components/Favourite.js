@@ -17,7 +17,7 @@ const FavouriteSongs = ({ user }) => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">Your Favorite Songs</h1>
+      {/* <h1 className="text-3xl font-bold mb-4">Your Favorite Songs</h1> */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {favoriteSongs.map((song) => (
           <div

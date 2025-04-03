@@ -32,7 +32,25 @@ const App = () => {
         .catch((err) => console.error(err));
     }
   }, [user]);
-
+  
+  // get all songs like status for the current user
+  // useEffect(() => {
+  //   if (user) {
+  //     axios.get(`http://localhost:5000/api/likes/getfavourites?userId=${user.email}`)
+  //       .then((res) => {
+  //         const likedSongs = res.data.favoriteSongs || []; // Ensure array format
+  
+  //         setSongs(prevSongs =>
+  //           prevSongs.map(song => ({
+  //             ...song,
+  //             liked: likedSongs.includes(song._id)
+  //           }))
+  //         );
+  //       })
+  //       .catch((err) => console.error("Error fetching favorites:", err));
+  //   }
+  // }, [user]); // ✅ Dependency array added
+  
   // ✅ Play/Pause toggle
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
