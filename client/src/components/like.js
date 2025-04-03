@@ -16,7 +16,8 @@ const LikeButton = ({ songId, userId }) => {
       .catch((err) => console.error("Error fetching like status:", err));
   }, [songId, userId]);
 
-  const toggleLike = async () => {
+  const toggleLike = async (event) => {
+    event.stopPropagation();
     if (!userId || !songId) {
       console.error("User ID or Song ID is missing.");
       return;

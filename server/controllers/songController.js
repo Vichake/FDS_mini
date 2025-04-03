@@ -78,7 +78,7 @@ exports.addfavourites = async(req,res)=>{
     }
  };
 
-
+// getting the status of a song whether it is in favourites or not
  exports.getstatus = async (req, res) => {
     try {
         const { songId, userId } = req.query; // Extract songId and userId from query parameters
@@ -130,9 +130,9 @@ exports.addfavourites = async(req,res)=>{
 // Get all favourite songs of a specific user
 exports.getfavourites = async (req, res) => {
     try {
-        console.log("getfavourites called");  
+        // console.log("getfavourites called");  
         const { person } = req.query; // Extract userId from query parameters
-        console.log("person",person);
+        // console.log("person",person);
         // res.send("getfavourites called");
         const songs = await Like.findOne({ userId: person });
         if (!songs) {
