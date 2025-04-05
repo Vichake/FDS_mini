@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axios';
+import './css/song.css';
 
 const SongList = ({ token }) => {
   const [songs, setSongs] = useState([]);
@@ -16,11 +17,9 @@ const SongList = ({ token }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/songs/${id}`, {
-  
-      });
-      alert('Song deleted successfully!');
-      fetchSongs(); // Refresh list
+      await axios.delete(`/songs/${id}`);
+      alert('Song deleted!');
+      fetchSongs();
     } catch (error) {
       console.error(error);
       alert('Failed to delete song');
@@ -32,18 +31,15 @@ const SongList = ({ token }) => {
   }, []);
 
   return (
-    <div>
-      <h2>Uploaded Songs</h2>
-      <ul>
-        {songs.map((song) => (
-          <li key={song._id} style={{ marginBottom: '10px' }}>
-            <strong>{song.title}</strong> by {song.artist}
-            <button
-              onClick={() => handleDelete(song._id)}
-              style={{ marginLeft: '10px' }}
-            >
-              Delete
-            </button>
+    <div className="card slide-in">
+      <h2 className="title">Uploaded Songs</h2>
+      <ul className="song-list">
+        {songs.map((song, index) => (
+          <li key={song._id} style={{ animationDelay: `${index * 0.1}s` }} className="song-item fade-in">
+            <div>
+              <strong>{song.title}</strong> by {song.artist}
+            </div>
+            <button onClick={() => handleDelete(song._id)} className='deleteBtn'>Delete</button>
           </li>
         ))}
       </ul>

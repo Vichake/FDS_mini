@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from '../axios';
+import './css/song.css';
 
 const SongUpload = ({ token }) => {
   const [title, setTitle] = useState('');
@@ -20,14 +21,13 @@ const SongUpload = ({ token }) => {
     formData.append('song', file);
 
     try {
-      const res = await axios.post('/songs/add', formData, {
+      await axios.post('/songs/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       });
       alert('Song uploaded successfully!');
-      console.log(res.data);
       setTitle('');
       setArtist('');
       setFile(null);
@@ -38,32 +38,30 @@ const SongUpload = ({ token }) => {
   };
 
   return (
-    <form onSubmit={handleUpload} style={{ marginBottom: '20px' }}>
-      <h2>Upload New Song</h2>
-      <input
-        type="text"
-        placeholder="Song Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      /><br /><br />
-
-      <input
-        type="text"
-        placeholder="Artist"
-        value={artist}
-        onChange={(e) => setArtist(e.target.value)}
-        required
-      /><br /><br />
-
+    <div className="card fade-in">
+      <h2 className="title">Upload a New Song</h2>
+      <form onSubmit={handleUpload} className="form">
+        <input
+          type="text"
+          placeholder="Song Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Artist Name"
+          value={artist}
+          onChange={(e) => setArtist(e.target.value)}
+        />
       <input
         type="file"
         onChange={(e) => setFile(e.target.files[0])}
-        required
-      /><br /><br />
+        className="customFileInput"
+      />
 
-      <button type="submit">Upload Song</button>
-    </form>
+        <button type="submit">Upload</button>
+      </form>
+    </div>
   );
 };
 
