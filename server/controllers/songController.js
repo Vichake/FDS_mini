@@ -48,10 +48,10 @@ exports.getAllSongs = async (req, res) => {
 exports.addfavourites = async(req,res)=>{
     try{
         const { songId, userId } = req.body; // Extract songId and userId from request body
-        console.log("addfavourites called",songId,userId);
+        // console.log("addfavourites called",songId,userId);
         const user = await Like.findOne({ userId: userId });
         if(!user){
-            console.log("User not found");
+            // console.log("User not found");
             const newUser = new Like({
                 userId: userId,
                 songIds: [songId]
@@ -62,12 +62,12 @@ exports.addfavourites = async(req,res)=>{
         else {
             const songExists = user.songIds.includes(songId);
             if (songExists) {
-                console.log("Song already exists in favourites");
+                // console.log("Song already exists in favourites");
                 return res.status(400).json({ message: 'Song already exists in favourites' });
             } else {
                 user.songIds.push(songId);
                 await user.save();
-                console.log("Added to favourites successfully");
+                // console.log("Added to favourites successfully");
                 return res.status(200).json({ message: 'Added to favourites successfully' });
             }
         }
