@@ -22,7 +22,7 @@ const App = () => {
     });
     return () => unsubscribe();
   }, []);
-
+  
   // ✅ Fetch songs once the user logs in
   useEffect(() => {
     if (user) {
@@ -32,48 +32,7 @@ const App = () => {
         .catch((err) => console.error(err));
     }
   }, [user]);
-  
-  // get all songs like status for the current user
-  // useEffect(() => {
-  //   if (user) {
-  //     axios.get(`http://localhost:5000/api/likes/getfavourites?userId=${user.email}`)
-  //       .then((res) => {
-  //         const likedSongs = res.data.favoriteSongs || []; // Ensure array format
-  
-  //         setSongs(prevSongs =>
-  //           prevSongs.map(song => ({
-  //             ...song,
-  //             liked: likedSongs.includes(song._id)
-  //           }))
-  //         );
-  //       })
-  //       .catch((err) => console.error("Error fetching favorites:", err));
-  //   }
-  // }, [user]); // ✅ Dependency array added
-  
-  // ✅ Play/Pause toggle
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  // ✅ Next song
-  const playNext = () => {
-    if (!currentSong) return;
-    const currentIndex = songs.findIndex((song) => song._id === currentSong._id);
-    if (currentIndex !== -1 && currentIndex < songs.length - 1) {
-      setCurrentSong(songs[currentIndex + 1]);
-    }
-  };
-
-  // ✅ Previous song
-  const playPrev = () => {
-    if (!currentSong) return;
-    const currentIndex = songs.findIndex((song) => song._id === currentSong._id);
-    if (currentIndex > 0) {
-      setCurrentSong(songs[currentIndex - 1]);
-    }
-  };
-
+    
   // ✅ Logout handler
   const handleLogout = async () => {
     await signOut(auth);
@@ -126,7 +85,7 @@ const App = () => {
             {selectedTab === "favorites" && (
               <>
                 <h1 className="text-3xl font-bold mb-4">Your Favorites</h1>
-                <Favourite user={user}/> {/* Show the Favourite component when 'favorites' tab is selected */}
+                <Favourite songs={songs} user={user} onSelectSong={setCurrentSong}/> {/* Show the Favourite component when 'favorites' tab is selected */}
               </>
             )}
           </div>
@@ -136,12 +95,12 @@ const App = () => {
       {/* Now Playing */}
       {currentSong && (
         <NowPlaying
-          currentSong={currentSong}
-          isPlaying={isPlaying}
-          onPlayPause={togglePlayPause}
-          onNext={playNext}
-          onPrev={playPrev}
-        />
+        currentSong={currentSong}
+        songs={songs}
+        onSelectSong={setCurrentSong}
+        isPlaying={isPlaying}
+      />
+      
       )}
     </div>
   );
